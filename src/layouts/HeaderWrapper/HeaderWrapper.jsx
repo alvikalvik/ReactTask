@@ -4,7 +4,7 @@ import Container from '../../components/Container/Container';
 function HeaderWrapper({ theme, onToggleTheme }) {
   return (
     <Container>
-      <Header theme={theme} onToggleTheme={onToggleTheme} />
+      <Header onToggleTheme={'123'} />
     </Container>
   );
 }

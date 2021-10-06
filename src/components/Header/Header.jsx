@@ -1,6 +1,7 @@
 import Logo from '../Logo/Logo';
 import NavMenu from '../NavMenu/NavMenu';
 import ThemeSwitcher from '../ThemeSwitcher/ThemeSwitcher';
+import PropTypes from 'prop-types';
 import './Header.css';
 
 function Header({ theme, onToggleTheme }) {
@@ -12,5 +13,10 @@ function Header({ theme, onToggleTheme }) {
     </div>
   );
 }
+
+Header.propTypes = {
+  theme: PropTypes.string.isRequired,
+  onToggleTheme: PropTypes.func.isRequired
+};
 
 export default Header;
