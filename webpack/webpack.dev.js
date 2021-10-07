@@ -21,7 +21,6 @@ module.exports = {
   devServer: {
     contentBase: commonPaths.outputPath,
     compress: true,
-    https: true,
     hot: true,
     port: 9020,
 
