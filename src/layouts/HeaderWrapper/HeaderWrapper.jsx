@@ -5,14 +5,14 @@ import PropTypes from 'prop-types';
 function HeaderWrapper({ theme, onToggleTheme }) {
   return (
     <Container>
-      <Header onToggleTheme={'12345'} />
+      <Header theme={theme} onToggleTheme={onToggleTheme} />
     </Container>
   );
 }
 
 HeaderWrapper.propTypes = {
   theme: PropTypes.string.isRequired,
-  onToggleTheme: PropTypes.func
+  onToggleTheme: PropTypes.func.isRequired
 };
 
 export default HeaderWrapper;
