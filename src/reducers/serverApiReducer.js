@@ -12,7 +12,7 @@ const initialState = {
   fetchingError: null
 };
 
-const serverApiReducer = (state = initialState, action) => {
+const serverApiReducer = (state = initialState, action) => {  
   switch (action.type) {
     case SET_IS_TOKEN_RECEIVED:
       return {
@@ -29,7 +29,7 @@ const serverApiReducer = (state = initialState, action) => {
         ...state,
         isFetchingInProgress: action.payload.isFetchingInProgress
       };
-    case SET_FETCHING_ERROR:
+    case SET_FETCHING_ERROR:      
       return {
         ...state,
         fetchingError: action.payload.fetchingError
