@@ -17,64 +17,11 @@ import Preloader from '../Preloader/Preloader';
 class LocationWeather extends PureComponent {
   constructor(props) {
     super(props);
-    this.state = {
-      defaultLocationId: API_DEFAULT_ID,
-      currentLocationInfo: null,
-      currentLocationWeather: null,
-      currentLocationDailyWeather: null,
-      currentLocationDetailedWeather: null,
+    this.state = {      
       activeDayDate: new Date().setHours(0, 0, 0, 0)
     };
 
     this.setActiveDayDate = this.setActiveDayDate.bind(this);
-  }
-
-  componentDidMount() {
-    (async () => {
-      try {
-        let geoPosition = null;
-        navigator.geolocation.getCurrentPosition(
-          position => {
-            geoPosition = position;
-          },
-          error => {
-            console.log('Could not get geo position from browser', error);
-          }
-        );
-
-        await weatherAPI.getToken(API_AUTH_USERNAME, API_AUTH_PASS);
-
-        const currentLocationInfo = await weatherAPI.getLocationInfo(
-          geoPosition
-            ? `${geoPosition.coords.longitude},${geoPosition.coords.latitude}`
-            : this.state.defaultLocationId
-        );
-        this.setState({ currentLocationInfo });
-
-        const currentLocationWeather = await weatherAPI.getCurrentWeather(
-          this.state.currentLocationInfo.id
-        );
-        this.setState({
-          currentLocationWeather
-        });
-
-        const currentLocationDailyWeather = await weatherAPI.getForecast(
-          API_FORECAST_DAILY_ENDPOINT,
-          this.state.currentLocationInfo.id
-        );
-        this.setState({ currentLocationDailyWeather });
-
-        const currentLocationDetailedWeather = await weatherAPI.getForecast(
-          API_FORECAST_DETAILED_ENDPOINT,
-          this.state.currentLocationInfo.id,
-          { periods: API_FORECAST_DETAILED_PERIODS }
-        );
-        this.setState({ currentLocationDetailedWeather });
-        console.log(currentLocationDetailedWeather);
-      } catch (error) {
-        console.log(error);
-      }
-    })();
   }
 
   setActiveDayDate(date) {
@@ -82,7 +29,7 @@ class LocationWeather extends PureComponent {
   }
 
   render() {
-    if (!this.props.isDataReceived) {
+    if (!this.props.isDataFetchnig) {
       return (
         <div className="location-weather">
           <Preloader />
@@ -93,16 +40,16 @@ class LocationWeather extends PureComponent {
     return (
       <div className="location-weather">
         <LocationWeatherCurrentInfo
-          currentLocationWeather={this.state.currentLocationWeather}
-          currentLocationInfo={this.state.currentLocationInfo}
+          currentLocationWeather={this.props.currentLocationWeather}
+          currentLocationInfo={this.props.currentLocationInfo}
         />
         <LocationWeatherDailyList
-          currentLocationDailyWeather={this.state.currentLocationDailyWeather}
+          currentLocationDailyWeather={this.props.currentLocationDailyWeather}
           activeDayDate={this.state.activeDayDate}
           setActiveDayDate={this.setActiveDayDate}
         />
         <LocationWeatherDetailedList
-          currentLocationDetailedWeather={this.state.currentLocationDetailedWeather}
+          currentLocationDetailedWeather={this.props.currentLocationDetailedWeather}
           activeDayDate={this.state.activeDayDate}
         />
       </div>

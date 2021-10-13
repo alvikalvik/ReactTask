@@ -1,7 +1,8 @@
 import LocationWeather from '../../components/LocationWeather/LocationWeather';
+import LocationWeatherContainer from '../../containers/LocationWeatherContainer';
 
 function Main() {
-  return <LocationWeather />;
+  return <LocationWeatherContainer />;
 }
 
 export default Main;
