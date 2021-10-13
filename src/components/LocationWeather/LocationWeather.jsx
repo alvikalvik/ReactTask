@@ -12,6 +12,7 @@ import { weatherAPI } from '../../services/dataService';
 import LocationWeatherCurrentInfo from './LocationWeatherCurrentInfo/LocationWeatherCurrentInfo';
 import LocationWeatherDailyList from './LocationWeatherDailyList/LocationWeatherDailyList';
 import LocationWeatherDetailedList from './LocationWeatherDetailedList/LocationWeatherDetailedList';
+import Preloader from '../Preloader/Preloader';
 
 class LocationWeather extends PureComponent {
   constructor(props) {
@@ -82,6 +83,7 @@ class LocationWeather extends PureComponent {
   }
 
   render() {
+    // return <div className="location-weather"><Preloader /></div>
     return (
       <div className="location-weather">
         <LocationWeatherCurrentInfo
