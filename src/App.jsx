@@ -19,6 +19,7 @@ import ContentWrapperContainer from './containers/ContentWrapperContainer';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { getToken } from './actions/ServerApiActions';
+import { getPosition } from './actions/GeoDetectionActions';
 
 function App() {
   const dispatch = useDispatch();
@@ -39,6 +40,7 @@ function App() {
 
   useEffect(() => {
     //get Geo location here
+    dispatch(getPosition());
   }, []);
 
   useEffect(() => {
@@ -48,7 +50,7 @@ function App() {
       !fetchingError
     ) {
       dispatch(getToken());
-    }    
+    }
   }, [isTokenReceived, tokenExpirationTime, fetchingError, dispatch]);
 
   return (
