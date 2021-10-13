@@ -1,4 +1,3 @@
-import './LocationWeather.css';
 import React, { Component, PureComponent } from 'react';
 import {
   API_AUTH_PASS,
@@ -9,21 +8,31 @@ import {
   API_FORECAST_DETAILED_ENDPOINT
 } from '../../constants/constants';
 import { weatherAPI } from '../../services/dataService';
-import LocationWeatherCurrentInfo from './LocationWeatherCurrentInfo/LocationWeatherCurrentInfo';
-import LocationWeatherDailyList from './LocationWeatherDailyList/LocationWeatherDailyList';
-import LocationWeatherDetailedList from './LocationWeatherDetailedList/LocationWeatherDetailedList';
-import Preloader from '../Preloader/Preloader';
+import PropTypes from 'prop-types';
+import LocationWeather from '../components/LocationWeather/LocationWeather';
+import {
+  CurrentLocationDailyWeatherType,
+  CurrentLocationDetailedWeatherType,
+  CurrentLocationInfoType,
+  CurrentLocationWeatherType
+} from '../types/types';
+import {
+  setCurrentLocationInfo,
+  setCurrentLocationWeather,
+  setCurrentLocationDailyWeather,
+  setCurrentLocationDetailedWeather
+} from '../actions/currentLocationActions';
 
-class LocationWeather extends PureComponent {
+class LocationWeatherContainer extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
+      activeDayDate: 0,
       defaultLocationId: API_DEFAULT_ID,
       currentLocationInfo: null,
       currentLocationWeather: null,
       currentLocationDailyWeather: null,
-      currentLocationDetailedWeather: null,
-      activeDayDate: new Date().setHours(0, 0, 0, 0)
+      currentLocationDetailedWeather: null
     };
 
     this.setActiveDayDate = this.setActiveDayDate.bind(this);
@@ -55,7 +64,8 @@ class LocationWeather extends PureComponent {
           this.state.currentLocationInfo.id
         );
         this.setState({
-          currentLocationWeather
+          currentLocationWeather,
+          activeDayDate: new Date(currentLocationWeather.time).setHours(0, 0, 0, 0)
         });
 
         const currentLocationDailyWeather = await weatherAPI.getForecast(
@@ -82,32 +92,39 @@ class LocationWeather extends PureComponent {
   }
 
   render() {
-    if (!this.props.isDataReceived) {
-      return (
-        <div className="location-weather">
-          <Preloader />
-        </div>
-      );
-    }
-
     return (
-      <div className="location-weather">
-        <LocationWeatherCurrentInfo
-          currentLocationWeather={this.state.currentLocationWeather}
-          currentLocationInfo={this.state.currentLocationInfo}
-        />
-        <LocationWeatherDailyList
-          currentLocationDailyWeather={this.state.currentLocationDailyWeather}
-          activeDayDate={this.state.activeDayDate}
-          setActiveDayDate={this.setActiveDayDate}
-        />
-        <LocationWeatherDetailedList
-          currentLocationDetailedWeather={this.state.currentLocationDetailedWeather}
-          activeDayDate={this.state.activeDayDate}
-        />
-      </div>
+      <LocationWeather
+        isDataFetchnig={this.props.isDataFetchnig}
+        currentLocationInfo={this.props.currentLocationInfo}
+        currentLocationWeather={this.props.currentLocationWeather}
+        currentLocationDailyWeather={this.props.currentLocationDailyWeather}
+        currentLocationDetailedWeather={this.props.currentLocationDetailedWeather}
+      />
     );
   }
 }
 
-export default LocationWeather;
+LocationWeatherContainer.propTypes = {
+  isDataFetchnig: PropTypes.bool.isRequired,
+  currentLocationInfo: CurrentLocationInfoType,
+  currentLocationWeather: CurrentLocationWeatherType,
+  currentLocationDailyWeather: CurrentLocationDailyWeatherType,
+  currentLocationDetailedWeather: CurrentLocationDetailedWeatherType
+};
+
+const mapStateToProps = state => {
+  return {
+    isDataFetchnig: state.serverApi.isFetchingInProgress,
+    currentLocationInfo: state.currentLocation.info,
+    currentLocationWeather: state.currentLocation.weather,
+    currentLocationDailyWeather: state.currentLocation.dailyWeather,
+    currentLocationDetailedWeather: state.currentLocation.detailedWeather
+  };
+};
+
+export default connect(mapStateToProps, {
+  setCurrentLocationInfo,
+  setCurrentLocationWeather,
+  setCurrentLocationDailyWeather,
+  setCurrentLocationDetailedWeather
+})(LocationWeatherContainer);
