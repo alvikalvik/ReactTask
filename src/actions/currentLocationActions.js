@@ -1,5 +1,6 @@
 import {
   SET_CURRENT_LOCATION_DAILY_WEATHER,
+  SET_CURRENT_LOCATION_DETAILED_WEATHER,
   SET_CURRENT_LOCATION_INFO,
   SET_CURRENT_LOCATION_WEATHER
 } from '../actionTypes';
@@ -9,13 +10,8 @@ import {
   API_FORECAST_DETAILED_ENDPOINT,
   API_FORECAST_DETAILED_PERIODS
 } from '../constants/constants';
-import {
-  weatherAPI
-} from '../services/dataService';
-import {
-  setFetchingError,
-  setIsFetchingInProgress
-} from './ServerApiActions';
+import { weatherAPI } from '../services/dataService';
+import { setFetchingError, setIsFetchingInProgress } from './ServerApiActions';
 
 export const setCurrentLocationInfo = info => ({
   type: SET_CURRENT_LOCATION_INFO,
@@ -45,42 +41,61 @@ export const setCurrentLocationDetailedWeather = detailedWeather => ({
   }
 });
 
-export const getCurrentLocationData = () => async (dispatch, getState) => {  
+export const getLocationDataById = locationId => async (dispatch, getState) => {
   if (getState().serverApi.isTokenReceived && !getState().serverApi.isFetchingInProgress) {
     dispatch(setIsFetchingInProgress(true));
 
     try {
-      const currentLocationInfo = await weatherAPI.getLocationInfo(
-        getState().geoDetection.position ?
-        `${getState().geoDetection.position.coords.longitude},${getState().geoDetection.position.coords.latitude}` :
-        API_DEFAULT_ID
-      );
+      const currentLocationInfo = await weatherAPI.getLocationInfo(locationId);
       dispatch(setCurrentLocationInfo(currentLocationInfo));
 
-      // const currentLocationWeather = weatherAPI.getCurrentWeather(
-      //   getState().currentLocation.info.id
-      // );
-      // const currentLocationDailyWeather = weatherAPI.getForecast(
-      //   API_FORECAST_DAILY_ENDPOINT,
-      //   getState().currentLocation.info.id
-      // );
-      // const currentLocationDetailedWeather = weatherAPI.getForecast(
-      //   API_FORECAST_DETAILED_ENDPOINT,
-      //   getState().currentLocation.info.id, {
-      //     periods: API_FORECAST_DETAILED_PERIODS
-      //   }
-      // );
+      const currentLocationWeather = weatherAPI.getCurrentWeather(locationId);
 
-      // await Promise.all(currentLocationWeather, currentLocationDailyWeather, currentLocationDetailedWeather);
+      const currentLocationDailyWeather = weatherAPI.getForecast(
+        API_FORECAST_DAILY_ENDPOINT,
+        locationId
+      );
 
-      // dispatch(setCurrentLocationWeather(currentLocationWeather));
-      // dispatch(setCurrentLocationDailyWeather(currentLocationDailyWeather));
-      // dispatch(setCurrentLocationDetailedWeather(currentLocationDetailedWeather));
+      const currentLocationDetailedWeather = weatherAPI.getForecast(
+        API_FORECAST_DETAILED_ENDPOINT,
+        locationId,
+        {
+          periods: API_FORECAST_DETAILED_PERIODS
+        }
+      );
 
+      const results = await Promise.all([
+        currentLocationWeather,
+        currentLocationDailyWeather,
+        currentLocationDetailedWeather
+      ]);
+      if (results.some(item => item === null)) {
+        throw new Error('Error while getCurrentLocationData executing');
+      }
+
+      const [
+        currentLocationWeatherResult,
+        currentLocationDailyWeatherResult,
+        currentLocationDetailedWeatherResult
+      ] = results;
+
+      dispatch(setCurrentLocationWeather(currentLocationWeatherResult));
+      dispatch(setCurrentLocationDailyWeather(currentLocationDailyWeatherResult));
+      dispatch(setCurrentLocationDetailedWeather(currentLocationDetailedWeatherResult));
     } catch (error) {
-      dispatch(setFetchingError(error))
+      dispatch(setFetchingError(error));
+      console.log(error);
     }
 
     dispatch(setIsFetchingInProgress(false));
   }
+};
+
+export const getCurrentLocationData = () => async (dispatch, getState) => {
+  const position = getState().geoDetection.position;
+  const locationId = position
+    ? `${position.coords.longitude},${position.coords.latitude}`
+    : API_DEFAULT_ID;
+
+  dispatch(getLocationDataById(locationId));
 };

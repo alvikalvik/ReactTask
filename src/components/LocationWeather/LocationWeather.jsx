@@ -1,23 +1,20 @@
 import './LocationWeather.css';
 import React, { Component, PureComponent } from 'react';
-import {
-  API_AUTH_PASS,
-  API_AUTH_USERNAME,
-  API_FORECAST_DETAILED_PERIODS,
-  API_DEFAULT_ID,
-  API_FORECAST_DAILY_ENDPOINT,
-  API_FORECAST_DETAILED_ENDPOINT
-} from '../../constants/constants';
-import { weatherAPI } from '../../services/dataService';
+import PropTypes from 'prop-types';
 import LocationWeatherCurrentInfo from './LocationWeatherCurrentInfo/LocationWeatherCurrentInfo';
 import LocationWeatherDailyList from './LocationWeatherDailyList/LocationWeatherDailyList';
 import LocationWeatherDetailedList from './LocationWeatherDetailedList/LocationWeatherDetailedList';
-import Preloader from '../Preloader/Preloader';
+import {
+  CurrentLocationDailyWeatherType,
+  CurrentLocationDetailedWeatherType,
+  CurrentLocationInfoType,
+  CurrentLocationWeatherType
+} from '../../types/types';
 
 class LocationWeather extends PureComponent {
   constructor(props) {
     super(props);
-    this.state = {      
+    this.state = {
       activeDayDate: new Date().setHours(0, 0, 0, 0)
     };
 
@@ -29,14 +26,6 @@ class LocationWeather extends PureComponent {
   }
 
   render() {
-    if (!this.props.isDataFetchnig) {
-      return (
-        <div className="location-weather">
-          <Preloader />
-        </div>
-      );
-    }
-
     return (
       <div className="location-weather">
         <LocationWeatherCurrentInfo
@@ -56,5 +45,19 @@ class LocationWeather extends PureComponent {
     );
   }
 }
+
+LocationWeather.propTypes = {
+  currentLocationInfo: CurrentLocationInfoType,
+  currentLocationWeather: CurrentLocationWeatherType,
+  currentLocationDailyWeather: CurrentLocationDailyWeatherType,
+  currentLocationDetailedWeather: CurrentLocationDetailedWeatherType
+};
+
+LocationWeather.defaultProps = {
+  currentLocationInfo: null,
+  currentLocationWeather: null,
+  currentLocationDailyWeather: null,
+  currentLocationDetailedWeather: null
+};
 
 export default LocationWeather;

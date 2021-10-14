@@ -15,28 +15,47 @@ import {
   getCurrentLocationData
 } from '../actions/currentLocationActions';
 import { connect } from 'react-redux';
+import Preloader from '../components/Preloader/Preloader';
 
 class LocationWeatherContainer extends PureComponent {
-    
-    componentDidUpdate(prevProps) {
-        // !!!! Find out condition of renew!!!!!!!
-
-
-
-
-        // this.props.getCurrentLocationData();
+  componentDidMount() {
+    if (!this.props.isDataFetchnig) {
+      this.props.getCurrentLocationData();
     }
+  }
 
-  
+  componentDidUpdate(prevProps) {
+    if (
+      !this.props.isDataFetchnig &&
+      !this.props.currentLocationInfo &&
+      !prevProps.currentLocationInfo &&
+      !this.props.currentLocationWeather &&
+      !prevProps.currentLocationWeather &&
+      !this.props.currentLocationDailyWeather &&
+      !prevProps.currentLocationDailyWeather &&
+      !this.props.currentLocationDetailedWeather &&
+      !prevProps.currentLocationDetailedWeather
+    ) {
+      this.props.getCurrentLocationData();
+    }
+  }
 
   render() {
+    if (this.props.isDataFetchnig) {
+      return (
+        <div className="location-weather">
+          <Preloader />
+        </div>
+      );
+    }
+
     return (
       <LocationWeather
-        isDataFetchnig={this.props.isDataFetchnig}
         currentLocationInfo={this.props.currentLocationInfo}
         currentLocationWeather={this.props.currentLocationWeather}
         currentLocationDailyWeather={this.props.currentLocationDailyWeather}
         currentLocationDetailedWeather={this.props.currentLocationDetailedWeather}
+        getCurrentLocationData={this.props.getCurrentLocationData}
       />
     );
   }
@@ -47,7 +66,15 @@ LocationWeatherContainer.propTypes = {
   currentLocationInfo: CurrentLocationInfoType,
   currentLocationWeather: CurrentLocationWeatherType,
   currentLocationDailyWeather: CurrentLocationDailyWeatherType,
-  currentLocationDetailedWeather: CurrentLocationDetailedWeatherType
+  currentLocationDetailedWeather: CurrentLocationDetailedWeatherType,
+  getCurrentLocationData: PropTypes.func.isRequired
+};
+
+LocationWeatherContainer.defaultProps = {
+  currentLocationInfo: null,
+  currentLocationWeather: null,
+  currentLocationDailyWeather: null,
+  currentLocationDetailedWeather: null
 };
 
 const mapStateToProps = state => {
@@ -61,9 +88,5 @@ const mapStateToProps = state => {
 };
 
 export default connect(mapStateToProps, {
-  setCurrentLocationInfo,
-  setCurrentLocationWeather,
-  setCurrentLocationDailyWeather,
-  setCurrentLocationDetailedWeather,
   getCurrentLocationData
 })(LocationWeatherContainer);
