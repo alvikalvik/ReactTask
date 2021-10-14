@@ -50,12 +50,10 @@ export const getLocationDataById = locationId => async (dispatch, getState) => {
       dispatch(setCurrentLocationInfo(currentLocationInfo));
 
       const currentLocationWeather = weatherAPI.getCurrentWeather(locationId);
-
       const currentLocationDailyWeather = weatherAPI.getForecast(
         API_FORECAST_DAILY_ENDPOINT,
         locationId
       );
-
       const currentLocationDetailedWeather = weatherAPI.getForecast(
         API_FORECAST_DETAILED_ENDPOINT,
         locationId,
@@ -69,9 +67,6 @@ export const getLocationDataById = locationId => async (dispatch, getState) => {
         currentLocationDailyWeather,
         currentLocationDetailedWeather
       ]);
-      if (results.some(item => item === null)) {
-        throw new Error('Error while getCurrentLocationData executing');
-      }
 
       const [
         currentLocationWeatherResult,
@@ -93,9 +88,9 @@ export const getLocationDataById = locationId => async (dispatch, getState) => {
 
 export const getCurrentLocationData = () => async (dispatch, getState) => {
   const position = getState().geoDetection.position;
-  const locationId = position
+  const location = position
     ? `${position.coords.longitude},${position.coords.latitude}`
     : API_DEFAULT_ID;
 
-  dispatch(getLocationDataById(locationId));
+  dispatch(getLocationDataById(location));
 };

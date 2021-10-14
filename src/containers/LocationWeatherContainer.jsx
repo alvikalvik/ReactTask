@@ -7,13 +7,7 @@ import {
   CurrentLocationInfoType,
   CurrentLocationWeatherType
 } from '../types/types';
-import {
-  setCurrentLocationInfo,
-  setCurrentLocationWeather,
-  setCurrentLocationDailyWeather,
-  setCurrentLocationDetailedWeather,
-  getCurrentLocationData
-} from '../actions/currentLocationActions';
+import { getCurrentLocationData } from '../actions/CurrentLocationActions';
 import { connect } from 'react-redux';
 import Preloader from '../components/Preloader/Preloader';
 
