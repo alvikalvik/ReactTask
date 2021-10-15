@@ -4,13 +4,7 @@ import {
   CLEAR_SELECTED_LOCATIONS
 } from '../actionTypes';
 
-const initialState = [
-  {
-    id,
-    locationInfo: null,
-    locationWeather: null
-  }
-];
+const initialState = [];
 
 const selectedLocationsReducer = (state = initialState, action) => {
   switch (action.type) {

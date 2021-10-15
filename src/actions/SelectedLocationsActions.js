@@ -35,7 +35,7 @@ export const updateAllSelectedLocationsData = () => async (dispatch, getState) =
     const selectedLocations = getState().selectedLocations;
 
     try {
-      selectedLocations.forEach(location => {
+      selectedLocations.forEach(async location => {
         const locationInfo = weatherAPI.getLocationInfo(location.id);
         const locationWeather = weatherAPI.getCurrentWeather(location.id);
 

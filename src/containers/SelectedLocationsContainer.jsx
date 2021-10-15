@@ -5,7 +5,8 @@ import { SelectedLocationType } from '../types/types';
 import { connect } from 'react-redux';
 import Preloader from '../components/Preloader/Preloader';
 import { WEATHER_UPDATE_INTERVAL } from '../constants/constants';
-import updateAllSelectedLocationsData from '../actions/SelectedLocationsActions';
+import { updateAllSelectedLocationsData } from '../actions/SelectedLocationsActions';
+import SelectedLocations from '../components/SelectedLocations/SelectedLocations';
 
 class SelectedLocationsContainer extends PureComponent {
   constructor(props) {
@@ -49,14 +50,14 @@ class SelectedLocationsContainer extends PureComponent {
   }
 }
 
-LocationWeatherContainer.propTypes = {
+SelectedLocationsContainer.propTypes = {
   isDataFetchnig: PropTypes.bool.isRequired,
   isTokenReceived: PropTypes.bool.isRequired,
   selectedLocations: PropTypes.arrayOf(SelectedLocationType),
   updateAllSelectedLocationsData: PropTypes.func.isRequired
 };
 
-LocationWeatherContainer.defaultProps = {
+SelectedLocationsContainer.defaultProps = {
   selectedLocations: null
 };
 
