@@ -18,7 +18,7 @@ export function useInitialize() {
     DEFAULT_SELECTED_LOCATIONS.forEach(id => {
       dispatch(
         putSelectedLocation({
-          id,
+          id: String(id),
           locationInfo: null,
           locationWeather: null
         })
