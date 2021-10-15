@@ -65,4 +65,4 @@ export const API_DEFAULT_ID = API_KIEV_ID;
 export const DEFAULT_SELECTED_LOCATIONS = [API_KIEV_ID, API_LONDON_ID, API_MINSK_ID];
 
 export const WEATHER_UPDATE_INTERVAL = 300000; // in milliseconds
-export const WEATHER_FIRST_UPDATE_INTERVAL = 200; // in milliseconds
+export const WEATHER_FIRST_UPDATE_INTERVAL = 100; // in milliseconds

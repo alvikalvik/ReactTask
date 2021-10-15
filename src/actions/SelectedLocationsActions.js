@@ -3,12 +3,6 @@ import {
   DELETE_SELECTED_LOCATION,
   CLEAR_SELECTED_LOCATIONS
 } from '../actionTypes';
-import {
-  API_DEFAULT_ID,
-  API_FORECAST_DAILY_ENDPOINT,
-  API_FORECAST_DETAILED_ENDPOINT,
-  API_FORECAST_DETAILED_PERIODS
-} from '../constants/constants';
 import { weatherAPI } from '../services/dataService';
 import { setFetchingError, setIsFetchingInProgress } from './ServerApiActions';
 

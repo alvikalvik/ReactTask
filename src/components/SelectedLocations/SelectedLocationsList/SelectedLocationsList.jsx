@@ -4,12 +4,18 @@ import SelectedLocationsListItem from '../SelectedLocationsListItem/SelectedLoca
 
 import './SelectedLocationsList.css';
 
-function SelectedLocationsList({ selectedLocations }) {
+function SelectedLocationsList({ selectedLocations, deleteSelectedLocation }) {
   return (
     <ul className="selected-locations__list">
       {selectedLocations
         ? selectedLocations.map(locationData => {
-            return <SelectedLocationsListItem key={locationData.id} locationData={locationData} />;
+            return (
+              <SelectedLocationsListItem
+                key={locationData.id}
+                locationData={locationData}
+                deleteSelectedLocation={deleteSelectedLocation}
+              />
+            );
           })
         : ''}
     </ul>
@@ -17,7 +23,8 @@ function SelectedLocationsList({ selectedLocations }) {
 }
 
 SelectedLocationsList.propTypes = {
-  selectedLocations: PropTypes.arrayOf(SelectedLocationType)
+  selectedLocations: PropTypes.arrayOf(SelectedLocationType),
+  deleteSelectedLocation: PropTypes.func.isRequired
 };
 
 SelectedLocationsList.defaultProps = {

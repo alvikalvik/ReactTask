@@ -11,7 +11,7 @@ import { SelectedLocationType } from '../../../types/types';
 import { formatTemperature } from '../../../utils/utils';
 import './SelectedLocationsListItem.css';
 
-function SelectedLocationsListItem({ locationData }) {
+function SelectedLocationsListItem({ locationData, deleteSelectedLocation }) {
   const { id, locationInfo, locationWeather } = locationData;
   return locationInfo && locationWeather ? (
     <li className="selected-locations__list-item">
@@ -40,7 +40,11 @@ function SelectedLocationsListItem({ locationData }) {
           </div>
         </div>
       </a>
-      <button className="selected-locations__list-item-remove-btn" type="button">
+      <button
+        className="selected-locations__list-item-remove-btn"
+        type="button"
+        onClick={() => deleteSelectedLocation(id)}
+      >
         Remove
       </button>
     </li>
@@ -50,7 +54,8 @@ function SelectedLocationsListItem({ locationData }) {
 }
 
 SelectedLocationsListItem.propTypes = {
-  locationData: SelectedLocationType.isRequired
+  locationData: SelectedLocationType.isRequired,
+  deleteSelectedLocation: PropTypes.func.isRequired
 };
 
 export default SelectedLocationsListItem;

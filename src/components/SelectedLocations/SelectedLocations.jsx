@@ -10,14 +10,18 @@ class SelectedLocations extends PureComponent {
     return (
       <div className="selected-locations">
         <h2 className="selected-locations__title">Selected locations:</h2>
-        <SelectedLocationsList selectedLocations={this.props.selectedLocations} />
+        <SelectedLocationsList
+          selectedLocations={this.props.selectedLocations}
+          deleteSelectedLocation={this.props.deleteSelectedLocation}
+        />
       </div>
     );
   }
 }
 
 SelectedLocations.propTypes = {
-  selectedLocations: PropTypes.arrayOf(SelectedLocationType)
+  selectedLocations: PropTypes.arrayOf(SelectedLocationType),
+  deleteSelectedLocation: PropTypes.func.isRequired
 };
 
 SelectedLocations.defaultProps = {

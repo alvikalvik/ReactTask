@@ -5,7 +5,10 @@ import { SelectedLocationType } from '../types/types';
 import { connect } from 'react-redux';
 import Preloader from '../components/Preloader/Preloader';
 import { WEATHER_FIRST_UPDATE_INTERVAL, WEATHER_UPDATE_INTERVAL } from '../constants/constants';
-import { updateAllSelectedLocationsData } from '../actions/SelectedLocationsActions';
+import {
+  deleteSelectedLocation,
+  updateAllSelectedLocationsData
+} from '../actions/SelectedLocationsActions';
 import SelectedLocations from '../components/SelectedLocations/SelectedLocations';
 
 class SelectedLocationsContainer extends PureComponent {
@@ -41,7 +44,12 @@ class SelectedLocationsContainer extends PureComponent {
       return <Preloader />;
     }
 
-    return <SelectedLocations selectedLocations={this.props.selectedLocations} />;
+    return (
+      <SelectedLocations
+        selectedLocations={this.props.selectedLocations}
+        deleteSelectedLocation={this.props.deleteSelectedLocation}
+      />
+    );
   }
 }
 
@@ -49,7 +57,8 @@ SelectedLocationsContainer.propTypes = {
   isDataFetchnig: PropTypes.bool.isRequired,
   isTokenReceived: PropTypes.bool.isRequired,
   selectedLocations: PropTypes.arrayOf(SelectedLocationType),
-  updateAllSelectedLocationsData: PropTypes.func.isRequired
+  updateAllSelectedLocationsData: PropTypes.func.isRequired,
+  deleteSelectedLocation: PropTypes.func.isRequired
 };
 
 SelectedLocationsContainer.defaultProps = {
@@ -65,5 +74,6 @@ const mapStateToProps = state => {
 };
 
 export default connect(mapStateToProps, {
-  updateAllSelectedLocationsData
+  updateAllSelectedLocationsData,
+  deleteSelectedLocation
 })(SelectedLocationsContainer);
