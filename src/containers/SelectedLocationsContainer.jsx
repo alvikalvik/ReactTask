@@ -28,7 +28,6 @@ class SelectedLocationsContainer extends PureComponent {
 
     // auto refresh
     this.timerId = setInterval(() => {
-      console.log('External Timer');
       if (this.props.isTokenReceived && !this.props.isDataFetchnig) {
         this.props.updateAllSelectedLocationsData();
       }

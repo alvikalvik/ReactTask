@@ -4,7 +4,7 @@ import {
   CLEAR_SELECTED_LOCATIONS
 } from '../actionTypes';
 import { weatherAPI } from '../services/dataService';
-import { setFetchingError, setIsFetchingInProgress } from './ServerApiActions';
+import { setIsFetchingInProgress } from './ServerApiActions';
 
 export const putSelectedLocation = locationData => ({
   type: PUT_SELECTED_LOCATION,
