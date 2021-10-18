@@ -23,34 +23,32 @@ export const clearSelectedLocations = () => ({
 });
 
 export const updateAllSelectedLocationsData = () => async (dispatch, getState) => {
-  if (getState().serverApi.isTokenReceived && !getState().serverApi.isFetchingInProgress) {
-    dispatch(setIsFetchingInProgress(true));
-
-    const selectedLocations = getState().selectedLocations;
-
+  const state = getState();
+  if (state.serverApi.isTokenReceived && !state.serverApi.isFetchingInProgress) {
     try {
-      selectedLocations.forEach(async location => {
-        const locationInfo = weatherAPI.getLocationInfo(location.id);
-        const locationWeather = weatherAPI.getCurrentWeather(location.id);
+      dispatch(setIsFetchingInProgress(true));
 
-        const [locationInfoResult, locationWeatherResult] = await Promise.all([
-          locationInfo,
-          locationWeather
+      state.selectedLocations.forEach(async location => {
+        const locationInfoPromise = weatherAPI.getLocationInfo(location.id);
+        const locationWeatherPromise = weatherAPI.getCurrentWeather(location.id);
+
+        const [locationInfo, locationWeather] = await Promise.all([
+          locationInfoPromise,
+          locationWeatherPromise
         ]);
 
         dispatch(
           putSelectedLocation({
             id: location.id,
-            locationInfo: locationInfoResult,
-            locationWeather: locationWeatherResult
+            locationInfo,
+            locationWeather
           })
         );
       });
     } catch (error) {
-      dispatch(setFetchingError(error));
       console.log(error);
+    } finally {
+      dispatch(setIsFetchingInProgress(false));
     }
-
-    dispatch(setIsFetchingInProgress(false));
   }
 };
