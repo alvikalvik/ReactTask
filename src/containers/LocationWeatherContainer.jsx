@@ -8,6 +8,7 @@ import {
   CurrentLocationWeatherType
 } from '../types/types';
 import { getCurrentLocationData } from '../actions/CurrentLocationActions';
+import { putSelectedLocation } from '../actions/SelectedLocationsActions';
 import { connect } from 'react-redux';
 import Preloader from '../components/Preloader/Preloader';
 import { WEATHER_UPDATE_INTERVAL } from '../constants/constants';
@@ -49,6 +50,7 @@ class LocationWeatherContainer extends PureComponent {
         currentLocationDailyWeather={this.props.currentLocationDailyWeather}
         currentLocationDetailedWeather={this.props.currentLocationDetailedWeather}
         getCurrentLocationData={this.props.getCurrentLocationData}
+        addToSelectedLocations={this.props.putSelectedLocation}
       />
     );
   }
@@ -60,7 +62,8 @@ LocationWeatherContainer.propTypes = {
   currentLocationWeather: CurrentLocationWeatherType,
   currentLocationDailyWeather: CurrentLocationDailyWeatherType,
   currentLocationDetailedWeather: CurrentLocationDetailedWeatherType,
-  getCurrentLocationData: PropTypes.func.isRequired
+  getCurrentLocationData: PropTypes.func.isRequired,
+  putSelectedLocation: PropTypes.func.isRequired
 };
 
 LocationWeatherContainer.defaultProps = {
@@ -81,5 +84,6 @@ const mapStateToProps = state => {
 };
 
 export default connect(mapStateToProps, {
-  getCurrentLocationData
+  getCurrentLocationData,
+  putSelectedLocation
 })(LocationWeatherContainer);

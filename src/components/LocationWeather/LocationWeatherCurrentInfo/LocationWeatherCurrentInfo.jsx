@@ -10,8 +10,14 @@ import {
 import { CurrentLocationInfoType, CurrentLocationWeatherType } from '../../../types/types';
 import { formatTemperature } from '../../../utils/utils';
 import './LocationWeatherCurrentInfo.css';
+import PropTypes from 'prop-types';
 
-function LocationWeatherCurrentInfo({ currentLocationWeather, currentLocationInfo }) {
+function LocationWeatherCurrentInfo({
+  currentLocationWeather,
+  currentLocationInfo,
+  addToSelectedLocations
+}) {
+  const locationId = currentLocationInfo ? currentLocationInfo.id : '';
   const locationName = currentLocationInfo ? currentLocationInfo.name : '';
   const locationCountry = currentLocationInfo ? currentLocationInfo.country : '';
   const currentWeather = currentLocationWeather ? (
@@ -62,6 +68,20 @@ function LocationWeatherCurrentInfo({ currentLocationWeather, currentLocationInf
         Weather in
         <br />
         {locationName}, {locationCountry}
+        <br />
+        <button
+          className="location-weather__add-btn"
+          type="button"
+          onClick={() => {
+            addToSelectedLocations({
+              id: String(locationId),
+              locationInfo: currentLocationInfo,
+              locationWeather: currentLocationWeather
+            });
+          }}
+        >
+          Add to selected
+        </button>
       </h2>
       <div className="location-weather__current-weather-box">{currentWeather}</div>
     </div>
@@ -70,7 +90,8 @@ function LocationWeatherCurrentInfo({ currentLocationWeather, currentLocationInf
 
 LocationWeatherCurrentInfo.propTypes = {
   currentLocationWeather: CurrentLocationWeatherType,
-  currentLocationInfo: CurrentLocationInfoType
+  currentLocationInfo: CurrentLocationInfoType,
+  addToSelectedLocations: PropTypes.func.isRequired
 };
 
 LocationWeatherCurrentInfo.defaultProps = {
