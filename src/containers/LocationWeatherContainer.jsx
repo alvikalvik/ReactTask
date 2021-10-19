@@ -7,12 +7,13 @@ import {
   CurrentLocationInfoType,
   CurrentLocationWeatherType
 } from '../types/types';
-import { getCurrentLocationData } from '../actions/CurrentLocationActions';
+import { getCurrentLocationData, getLocationDataById } from '../actions/CurrentLocationActions';
 import { putSelectedLocation } from '../actions/SelectedLocationsActions';
 import { connect } from 'react-redux';
 import Preloader from '../components/Preloader/Preloader';
 import { WEATHER_UPDATE_INTERVAL } from '../constants/constants';
 import { isReadyForDataFetchingSelector } from '../selectors';
+import { withRouter } from 'react-router';
 
 class LocationWeatherContainer extends PureComponent {
   constructor(props) {
@@ -20,14 +21,28 @@ class LocationWeatherContainer extends PureComponent {
     this.timerId = null;
   }
 
+  actualizeData() {
+    if (this.props.match && this.props.match.params.id) {
+      this.props.getLocationDataById(this.props.match.params.id);
+    } else {
+      this.props.getCurrentLocationData();
+    }
+  }
+
   componentDidMount() {
     // get data first time
-    this.props.getCurrentLocationData();
+    this.actualizeData();
 
     // auto refresh
     this.timerId = setInterval(() => {
-      this.props.getCurrentLocationData();
+      this.actualizeData();
     }, WEATHER_UPDATE_INTERVAL);
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.match.params.id !== prevProps.match.params.id) {
+      this.actualizeData();
+    }
   }
 
   componentWillUnmount() {
@@ -63,6 +78,7 @@ LocationWeatherContainer.propTypes = {
   currentLocationDailyWeather: CurrentLocationDailyWeatherType,
   currentLocationDetailedWeather: CurrentLocationDetailedWeatherType,
   getCurrentLocationData: PropTypes.func.isRequired,
+  getLocationDataById: PropTypes.func.isRequired,
   putSelectedLocation: PropTypes.func.isRequired
 };
 
@@ -85,5 +101,6 @@ const mapStateToProps = state => {
 
 export default connect(mapStateToProps, {
   getCurrentLocationData,
+  getLocationDataById,
   putSelectedLocation
-})(LocationWeatherContainer);
+})(withRouter(LocationWeatherContainer));

@@ -1,7 +1,8 @@
 export const THEME_LIGHT = 'light';
 export const THEME_DARK = 'dark';
 
-export const CONTACT_US_PAGE_LINK = '/about';
+export const CONTACT_US_PAGE_LINK = '/contact';
+export const ABOUT_US_PAGE_LINK = '/about';
 export const LOCATIONS_PAGE_LINK = '/locations';
 
 export const DEGREES_TEXT = '°';

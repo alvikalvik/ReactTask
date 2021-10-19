@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import {
   API_SYMBOL_URL_POSTFIX,
   API_SYMBOL_URL_PREFIX,
@@ -19,7 +20,7 @@ function SelectedLocationsListItem({ locationData, deleteSelectedLocation }) {
     locationInfo &&
     locationWeather && (
       <li className="selected-locations__list-item">
-        <a href={`${LOCATIONS_PAGE_LINK}/${id}`} className="selected-locations__list-item-link">
+        <Link to={`${LOCATIONS_PAGE_LINK}/${id}`} className="selected-locations__list-item-link">
           <h3 className="selected-locations__list-item-title">{locationInfo.name}</h3>
           <div className="selected-locations__list-info-wrapper">
             <img
@@ -43,7 +44,7 @@ function SelectedLocationsListItem({ locationData, deleteSelectedLocation }) {
               </div>
             </div>
           </div>
-        </a>
+        </Link>
         <button
           className="selected-locations__list-item-remove-btn"
           type="button"
