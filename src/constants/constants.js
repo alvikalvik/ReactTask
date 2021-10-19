@@ -4,6 +4,10 @@ export const THEME_DARK = 'dark';
 export const CONTACT_US_PAGE_LINK = '/about';
 export const LOCATIONS_PAGE_LINK = '/locations';
 
+export const DEGREES_TEXT = '°';
+export const DEGREES_FULL_TEXT = '°C';
+export const WIND_SPEED_TEXT = 'm/s';
+
 export const API_AUTH_USERNAME = process.env.API_AUTH_USERNAME;
 export const API_AUTH_PASS = process.env.API_AUTH_PASS;
 export const API_BASE_URL = '/api'; //proxed to 'https://pfa.foreca.com' via webpack
