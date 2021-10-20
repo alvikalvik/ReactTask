@@ -5,11 +5,11 @@ import Preloader from '../Preloader/Preloader';
 import './LocationsSearch.css';
 import LocationsSearchReuslts from './LocationsSearchReuslts/LocationsSearchReuslts';
 import debounce from 'lodash/debounce';
-import { MIN_CHARACKTERS_FOR_SEARCH, WEATHER_MIN_WAIT_INTERVAL } from '../../constants/constants';
+import { DEBOUNCE_WAIT_TIME, MIN_CHARACKTERS_FOR_SEARCH } from '../../constants/constants';
 
 function LocationsSearch({ isReadyForSearch, searchResults, clearSearch, searchLocations }) {
   const [inputValue, setInputValue] = useState('');
-  const debouncedSearchLocations = debounce(searchLocations, WEATHER_MIN_WAIT_INTERVAL);
+  const debouncedSearchLocations = debounce(searchLocations, DEBOUNCE_WAIT_TIME);
 
   function handleInputChange(event) {
     const value = event.target.value;
@@ -34,7 +34,9 @@ function LocationsSearch({ isReadyForSearch, searchResults, clearSearch, searchL
         value={inputValue}
         onChange={handleInputChange}
       />
-      <div className="locations-search__input-description">at least 3 characters</div>
+      <div className="locations-search__input-description">
+        at least {MIN_CHARACKTERS_FOR_SEARCH} characters
+      </div>
       {isReadyForSearch ? <LocationsSearchReuslts searchResults={searchResults} /> : <Preloader />}
     </div>
   );
