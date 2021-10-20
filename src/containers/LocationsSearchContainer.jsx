@@ -8,6 +8,10 @@ import { isReadyForSearchSelector } from '../selectors';
 import LocationsSearch from '../components/LocationsSearch/LocationsSearch';
 
 class LocationsSearchContainer extends PureComponent {
+  componentWillUnmount() {
+    this.props.clearSearch();
+  }
+
   render() {
     return (
       <LocationsSearch

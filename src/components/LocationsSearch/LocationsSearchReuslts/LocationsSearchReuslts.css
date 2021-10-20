@@ -1,5 +1,5 @@
 .locations-search__results-title {
-  margin: 0.5rem 0 0 0;
+  margin: 1rem 0 0 0;
   padding: 0;
 }
 
@@ -15,6 +15,8 @@
 
 .locations-search__results-item {
   margin: 0.3rem;
+  width: 45%;
+  text-align: left;
 }
 
 .locations-search__results-link {
@@ -27,6 +29,6 @@
 
 .locations-search__no-results {
   margin: 0.5rem;
-  font-size: 1rem;
+  font-size: 0.8rem;
   font-weight: 700;
 }
