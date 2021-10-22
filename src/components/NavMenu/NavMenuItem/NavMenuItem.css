@@ -4,7 +4,7 @@
 
 .menu__link {
   display: block;
-  font-size: 14px;
+  font-size: var(--fz-normal);
   text-decoration: none;
   color: var(--primary-color);
   transition: transform 0.3s, color 0.3s;
