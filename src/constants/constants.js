@@ -76,3 +76,4 @@ export const TOKEN_UPDATE_INTERVAL = 3600000; // in milliseconds
 
 export const DEBOUNCE_WAIT_TIME = 700; // in milliseconds
 export const MIN_CHARACTERS_FOR_SEARCH = 3;
+export const AFTER_SUBMITTING_TIMEOUT = 2000; // in milliseconds
