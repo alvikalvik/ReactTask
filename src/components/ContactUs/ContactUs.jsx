@@ -1,6 +1,7 @@
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useState } from 'react';
 import { AFTER_SUBMITTING_TIMEOUT } from '../../constants/constants';
+import './ContactUs.css';
 
 function ContactUs() {
   const [isAfterSubmittiningMessageActive, setIsAfterSubmittiningMessageActive] = useState(false);
@@ -67,7 +68,7 @@ function ContactUs() {
                 className="contact-us__validation-error"
               />
 
-              <button type="submit" disabled={isSubmitting}>
+              <button type="submit" disabled={isSubmitting} className="contact-us__btn">
                 Send
               </button>
             </Form>
